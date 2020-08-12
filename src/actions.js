@@ -1,8 +1,7 @@
-import {DATA_SORT_ID, GET_ROW_ID} from "./consts";
-
-export const FETCH_DATA_ERROR = "FETCH_DATA_ERROR";
-export const FETCH_DATA_PENDING = "FETCH_DATA_PENDING";
-export const FETCH_DATA_SUCCESS = "FETCH_DATA_SUCCESS";
+import {DATA_SORT_ID,
+    GET_ROW_ID,
+    FETCH_DATA_ERROR, FETCH_DATA_SUCCESS, FETCH_DATA_PENDING,
+    CLEAR_INFO} from "./consts";
 
 export const getData = (rowsQnty) => {
     return dispatch => {
@@ -46,15 +45,20 @@ function fetchDataError(error) {
 export const DataSortId = () => {
     return {
         type: DATA_SORT_ID,
-
     }
 };
 
-function getRowID() {
+export const getRowID = (item) => {
     return {
         type: GET_ROW_ID,
-        //payload:
+        payload: item,
     }
-}
+};
+
+export const clearSelectedRow = () => {
+    return {
+        type: CLEAR_INFO,
+    }
+};
 
 

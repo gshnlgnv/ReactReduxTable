@@ -2,16 +2,12 @@ import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-
 import {DataTableContainer} from "./Components/DataTable";  // рендерим коннеченный компонент
 import Loading from "./Components/Loading";
-
 import ShowRow from "./Components/ShowRow";
 import Paginator from "./Components/Paginator";
-
 import {connect} from "react-redux";
 import {getData} from "./actions";
-
 import {bindActionCreators} from "redux";
 
 class App extends Component {
@@ -29,7 +25,6 @@ class App extends Component {
         })
     };
 
-
     // спросить про правильную отрисовку ошибки
 
     // renderTable() {
@@ -43,6 +38,14 @@ class App extends Component {
             return <DataTableContainer/>
         } else {
             return <div>error</div>
+        }
+    }
+
+    renderPersonInfo() {
+        if (this.props.activeRow != null) {
+            return <ShowRow/>
+        } else {
+            return null;
         }
     }
 
@@ -104,7 +107,10 @@ class App extends Component {
                         {this.renderTable()}  {/*надо делать рендер метод, потому что так принято (с) вадим*/}
 
                         <Paginator/>
-                        {personInfo}
+
+                        {this.renderPersonInfo()}
+                        {/*{personInfo}*/}
+
                     </div>
 
                 </div>
@@ -116,9 +122,10 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    //data: state.fetchDataReducer.data,
     pending: state.fetchDataReducer.pending,
     error: state.fetchDataReducer.error,
+    activeRow: state.fetchDataReducer.activeIDNo,
+
 });
 
 const mapDispatchToProps = (dispatch) => {
