@@ -1,7 +1,10 @@
-import {DATA_SORT_ID,
+import {
+    DATA_SORT_ID,
     GET_ROW_ID,
     FETCH_DATA_ERROR, FETCH_DATA_SUCCESS, FETCH_DATA_PENDING,
-    CLEAR_INFO} from "./consts";
+    CLEAR_INFO,
+    MAKE_TABLE_VISIBLE,
+} from "./consts";
 
 export const getData = (rowsQnty) => {
     return dispatch => {
@@ -61,4 +64,9 @@ export const clearSelectedRow = () => {
     }
 };
 
+export const makeTableVisibleAgain = () => {
+    return {
+        type: MAKE_TABLE_VISIBLE,
+    }
+};
 

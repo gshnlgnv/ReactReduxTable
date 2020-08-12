@@ -3,7 +3,9 @@ import {
     FETCH_DATA_ERROR, FETCH_DATA_PENDING, FETCH_DATA_SUCCESS,
     ASC, DESC,
     GET_ROW_ID,
-    CLEAR_INFO} from "./consts";
+    CLEAR_INFO,
+    MAKE_TABLE_VISIBLE
+} from "./consts";
 
 const initialState = {
     pending: false,
@@ -12,9 +14,10 @@ const initialState = {
     sort: null,
     activeIDNo: null,
     selectedRow: null, // prihodit vibranniy object po ID
+    tableVisability: "none",
 };
 
-const sortDataFunction = (sort, a, b) => {
+const sortDataFunction = (sort, a, b) => {  // sort prishel pervim iz bind
     if (sort === ASC) {
         if (a['id'] < b['id']) return -1;
         if (a['id'] > b['id']) return 1;
@@ -48,31 +51,26 @@ export const fetchDataReducer = (state = initialState, action) => {
         case DATA_SORT_ID:
             return {
                 ...state,
-                data: state.data.concat().sort(sortDataFunction.bind(this, state.sort)),
+                data: state.data.concat().sort(sortDataFunction.bind(this, state.sort)),  // v bind ly4she ykazivat perviy arg 'this' ili 'null', vtoroi argument pridet v F pervim
                 sort: state.sort === ASC ? DESC : ASC,
             };
         case GET_ROW_ID:
-
-            return{
+            return {
                 ...state,
                 activeIDNo: action.payload,
-                selectedRow: state.data.find( item => {
-                    return (item.id === action.payload);
-
-                    // if (item.id === action.payload) {
-                    //     return item;
-                    // }
+                selectedRow: state.data.find(item => {
+                    return item.id === action.payload;
                 })
-
-                // suda pomestit vibranniy object
-
-
             };
         case CLEAR_INFO:
             return {
-                ...state,     // vsegda nado vozvrashat state bazoviy
+                ...state,     // vsegda nado vozvrashat' state bazoviy
                 activeIDNo: null,
-
+            };
+        case MAKE_TABLE_VISIBLE:
+            return {
+                ...state,
+                tableVisability: true,
             };
         default:
             return state;

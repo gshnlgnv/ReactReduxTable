@@ -7,116 +7,65 @@ import Loading from "./Components/Loading";
 import ShowRow from "./Components/ShowRow";
 import Paginator from "./Components/Paginator";
 import {connect} from "react-redux";
-import {getData} from "./actions";
+import {getData,makeTableVisibleAgain} from "./actions";
 import {bindActionCreators} from "redux";
 
 class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            row: null,
-        }
-    }
-
-    rowSelected = (row) => {
-        console.log(row);
-        this.setState({
-            row: row,
-        })
-    };
-
-    // спросить про правильную отрисовку ошибки
-
-    // renderTable() {
-    //     return this.props.pending ? <Loading/> : <DataTableContainer/>;
-    // }
-
     renderTable() {
-        if (this.props.pending) {
+        const {pending, error} = this.props;
+
+        if (pending) {
             return <Loading/>;
-        } else if (!this.props.pending && !this.props.error) {
+        } else if (!error) {
             return <DataTableContainer/>
         } else {
             return <div>error</div>
         }
     }
 
-    renderPersonInfo() {
-        if (this.props.activeRow != null) {
-            return <ShowRow/>
-        } else {
-            return null;
-        }
-    }
-
     render() {
-        let vis = "true"; // true
-
-       // const tableLoading = this.props.pending ? <Loading/> : <DataTableContainer/>;
-
-        const personInfo = this.state.row ? <ShowRow person={this.state.row}/> : null;
+        const {activeRow, getData} = this.props;
 
         return (
             <div className="container">
-
-                <h2>Test work</h2>
-
+                <h2>Тестовая разработка</h2>
                 <div>
                     <div>
                         <h4>Выбрать массив данных</h4>
                     </div>
-
                     <div className="btn-group" role="group" aria-label="Basic example">
-
                         <button
                             type="button"
                             title=" ~ 32 шт"
                             className="btn btn-secondary"
                             onClick={() => {
-                                this.props.getData(32);
+                                getData(32);
+                                this.props.makeTableVisibleAgain();
                             }}
                         > Маленький
                         </button>
-
                         <button
                             type="button"
                             title=" ~ 1000 шт"
                             className="btn btn-secondary"
                             onClick={() => {
-                                this.props.getData(1000);
+                                getData(1000);
                             }}
                         >Большой
                         </button>
                     </div>
-
-                    <div style={{display: "none"}}>
-
-                        {/*делать два класса и менять их*/}
-
-                        hello
-                    </div>
-
-                    <div style={{display: vis}}>
+                    <div style={{display: this.props.tableVisability}}>
                         <Form.Group>
                             <Form.Control size="sm" type="text" placeholder="Введите информацию для поиска"/>
                         </Form.Group>
-
                         <Button variant="primary">Найти</Button>
                         <Button variant="primary">Добавить</Button>
-
-                        {this.renderTable()}  {/*надо делать рендер метод, потому что так принято (с) вадим*/}
-
+                        {this.renderTable()} {/*надо делать рендер метод, потому что так принято (с) вадим*/}
                         <Paginator/>
-
-                        {this.renderPersonInfo()}
-                        {/*{personInfo}*/}
-
+                        {activeRow && <ShowRow/>}
                     </div>
-
                 </div>
-
             </div>
-
         );
     }
 }
@@ -125,11 +74,14 @@ const mapStateToProps = (state) => ({
     pending: state.fetchDataReducer.pending,
     error: state.fetchDataReducer.error,
     activeRow: state.fetchDataReducer.activeIDNo,
+    data: state.fetchDataReducer.data,
+    tableVisability: state.fetchDataReducer.tableVisability,
+
 
 });
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({getData}, dispatch);
+    return bindActionCreators({getData,makeTableVisibleAgain}, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

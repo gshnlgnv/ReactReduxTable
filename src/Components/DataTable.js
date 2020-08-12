@@ -11,10 +11,13 @@ class DataTable extends Component {
             <Table className="table" striped bordered hover size="sm">
                 <thead>
                 <tr>
-                    <th onClick={() => { this.props.DataSortId() }}>#</th>
-                    <th >Имя</th>
-                    <th >Фамилия</th>
-                    <th >Почта</th>
+                    <th onClick={() => {
+                        this.props.DataSortId()
+                    }}>#
+                    </th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Почта</th>
                     <th>Телефон</th>
                 </tr>
                 </thead>
@@ -26,7 +29,8 @@ class DataTable extends Component {
                                 this.props.getRowID(item.id);
                                 console.log("item.id is ", item.id);
                                 console.log("item is ", item);
-                                }
+                                console.log("data length is : ", this.props.data.length);
+                            }
                         }
                     >
                         <td>{item.id}</td>
@@ -38,7 +42,6 @@ class DataTable extends Component {
                 )}
                 </tbody>
             </Table>
-
         );
     }
 }
