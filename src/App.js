@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button} from 'react-bootstrap';
+import {Button, InputGroup, FormControl} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import {DataTableContainer} from "./Components/DataTable";  // рендерим коннеченный компонент
 import Loading from "./Components/Loading";
@@ -9,6 +9,7 @@ import Paginator from "./Components/Paginator";
 import {connect} from "react-redux";
 import {getData,makeTableVisibleAgain} from "./actions";
 import {bindActionCreators} from "redux";
+import {InputFormContainer} from './Components/InputForm.js';
 
 class App extends Component {
     renderTable() {
@@ -47,7 +48,7 @@ class App extends Component {
                         <button
                             type="button"
                             title=" ~ 1000 шт"
-                            className="btn btn-secondary"
+                            className="btn btn-secondary offset-md-4"
                             onClick={() => {
                                 getData(1000);
                             }}
@@ -55,14 +56,24 @@ class App extends Component {
                         </button>
                     </div>
                     <div style={{display: this.props.tableVisability}}>
-                        <Form.Group>
-                            <Form.Control size="sm" type="text" placeholder="Введите информацию для поиска"/>
-                        </Form.Group>
-                        <Button variant="primary">Найти</Button>
-                        <Button variant="primary">Добавить</Button>
+
+                        <InputGroup className="mb-3">
+                            <FormControl
+                                placeholder="Введите данные для поиска"
+                                aria-label="Recipient's username"
+                                aria-describedby="basic-addon2"   // 4to eto ?
+                            />
+                            <InputGroup.Append>
+                                <Button variant="outline-secondary">Найти</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+
+                        <InputFormContainer />
+
                         {this.renderTable()} {/*надо делать рендер метод, потому что так принято (с) вадим*/}
                         <Paginator/>
                         {activeRow && <ShowRow/>}
+
                     </div>
                 </div>
             </div>
@@ -76,8 +87,6 @@ const mapStateToProps = (state) => ({
     activeRow: state.fetchDataReducer.activeIDNo,
     data: state.fetchDataReducer.data,
     tableVisability: state.fetchDataReducer.tableVisability,
-
-
 });
 
 const mapDispatchToProps = (dispatch) => {

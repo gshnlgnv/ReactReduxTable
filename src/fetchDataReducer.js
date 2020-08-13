@@ -4,7 +4,8 @@ import {
     ASC, DESC,
     GET_ROW_ID,
     CLEAR_INFO,
-    MAKE_TABLE_VISIBLE
+    MAKE_TABLE_VISIBLE,
+    GET_VALUE_FROM_INPUT
 } from "./consts";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
     activeIDNo: null,
     selectedRow: null, // prihodit vibranniy object po ID
     tableVisability: "none",
+
 };
 
 const sortDataFunction = (sort, a, b) => {  // sort prishel pervim iz bind
@@ -71,6 +73,13 @@ export const fetchDataReducer = (state = initialState, action) => {
             return {
                 ...state,
                 tableVisability: true,
+            };
+        case GET_VALUE_FROM_INPUT:
+            return {
+                ...state,
+                [action.fieldType]: action.fieldValue,
+
+
             };
         default:
             return state;

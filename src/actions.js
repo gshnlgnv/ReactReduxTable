@@ -4,6 +4,7 @@ import {
     FETCH_DATA_ERROR, FETCH_DATA_SUCCESS, FETCH_DATA_PENDING,
     CLEAR_INFO,
     MAKE_TABLE_VISIBLE,
+    GET_VALUE_FROM_INPUT,
 } from "./consts";
 
 export const getData = (rowsQnty) => {
@@ -67,6 +68,14 @@ export const clearSelectedRow = () => {
 export const makeTableVisibleAgain = () => {
     return {
         type: MAKE_TABLE_VISIBLE,
+    }
+};
+
+export const getValueFromInput = (fieldType, fieldValue) => {
+    return {
+        type: GET_VALUE_FROM_INPUT,
+        fieldType: fieldType,
+        fieldValue: fieldValue,
     }
 };
 

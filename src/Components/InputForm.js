@@ -1,54 +1,126 @@
-import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
+import {Button, Modal, Form} from "react-bootstrap";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {getValueFromInput} from "../actions";
 
-export default props => (
+const InputForm = (props) => {
+    const [show, setShow] = useState(false);  // прочитать про реакт хуки
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
-    <div>
-    <form>
-    <div className="form-row">
-        <div className="form-group col-md-6">
-            <label htmlFor="inputEmail4">Email</label>
-            <input type="email" className="form-control" id="inputEmail4">
-        </div>
-        <div className="form-group col-md-6">
-            <label htmlFor="inputPassword4">Password</label>
-            <input type="password" className="form-control" id="inputPassword4">
-        </div>
-    </div>
-    <div className="form-group">
-        <label htmlFor="inputAddress">Address</label>
-        <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St">
-    </div>
-    <div className="form-group">
-        <label htmlFor="inputAddress2">Address 2</label>
-        <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-    </div>
-    <div className="form-row">
-        <div className="form-group col-md-6">
-            <label htmlFor="inputCity">City</label>
-            <input type="text" className="form-control" id="inputCity">
-        </div>
-        <div className="form-group col-md-4">
-            <label htmlFor="inputState">State</label>
-            <select id="inputState" className="form-control">
-                <option selected>Choose...</option>
-                <option>...</option>
-            </select>
-        </div>
-        <div className="form-group col-md-2">
-            <label htmlFor="inputZip">Zip</label>
-            <input type="text" className="form-control" id="inputZip">
-        </div>
-    </div>
-    <div className="form-group">
-        <div className="form-check">
-            <input className="form-check-input" type="checkbox" id="gridCheck">
-                <label className="form-check-label" htmlFor="gridCheck">
-                    Check me out
-                </label>
-        </div>
-    </div>
-    <button type="submit" className="btn btn-primary">Sign in</button>
-</form>
-    </div>
-);
+    return (
+        <>
+            <Button variant="primary" onClick={handleShow}>
+               Добавить
+            </Button>
+
+            <Modal
+                show={show}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Добавление человека</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Введите данные по человеку для добавления в базу.</p>
+                    <p>Необходимо заполнить все поля.</p>
+                </Modal.Body>
+
+                <div>
+                    <Form>
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Имя</Form.Label>
+                            <Form.Control type="firstName" placeholder=">" onChange={(event) => {
+                                props.getValueFromInput("firstName", event.currentTarget.value);
+
+                            }}/>
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Фамилия</Form.Label>
+                            <Form.Control type="lastName" placeholder=">"onChange={(event) => {
+                                props.getValueFromInput("lastName", event.currentTarget.value);
+
+                            }} />
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Email адрес</Form.Label>
+                            <Form.Control type="email" placeholder=">"onChange={(event) => {
+                                props.getValueFromInput("email", event.currentTarget.value);
+
+                            }} />
+                            <Form.Text className="text-muted">
+                                Мы поделимся им со всеми.
+                            </Form.Text>
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Телефон</Form.Label>
+                            <Form.Control type="phone" placeholder=">"onChange={(event) => {
+                                props.getValueFromInput("phone", event.currentTarget.value);
+
+                            }} />
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Улица/дом</Form.Label>
+                            <Form.Control type="streetAddress" placeholder=">"onChange={(event) => {
+                                props.getValueFromInput("streetAddress", event.currentTarget.value);
+
+                            }} />
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Город</Form.Label>
+                            <Form.Control type="city" placeholder=">"onChange={(event) => {
+                                props.getValueFromInput("city", event.currentTarget.value);
+
+                            }} />
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Штат</Form.Label>
+                            <Form.Control type="state" placeholder=">" onChange={(event) => {
+                                props.getValueFromInput("state", event.currentTarget.value);
+
+                            }}/>
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Индекс</Form.Label>
+                            <Form.Control type="zip" placeholder=">"onChange={(event) => {
+                                props.getValueFromInput("zip", event.currentTarget.value);
+
+                            }} />
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Описание</Form.Label>
+                            <Form.Control type="description" placeholder=">" onChange={(event) => {
+                                props.getValueFromInput("description", event.currentTarget.value);
+
+                            }}/>
+                        </Form.Group>
+
+                    </Form>
+                </div>
+
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>Закрыть</Button>
+                    <Button variant="primary">Добавить</Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
+};
+
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({getValueFromInput}, dispatch)
+};
+
+export const InputFormContainer = connect(null, mapDispatchToProps)(InputForm);
